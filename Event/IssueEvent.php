@@ -1,12 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: jens
- * Date: 25.02.13
- * Time: 11:26
- * To change this template use File | Settings | File Templates.
- */
-
 namespace Zeichen32\GitLabApiBundle\Event;
 
 
