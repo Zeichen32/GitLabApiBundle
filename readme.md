@@ -12,6 +12,7 @@ The preferred way to install this bundle is to rely on [Composer](http://getcomp
         "zeichen32/gitlabapibundle": "dev-master"
     }
 }
+```
 
 ### Step 2: Enable the bundle
 
