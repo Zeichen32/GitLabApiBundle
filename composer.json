@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": ">=2.1,<2.3-dev",
-        "zeichen32/gitlabapi": ">=0.1.0"
+        "zeichen32/gitlabapi": ">=0.1.1"
     },
     "minimum-stability": "dev"
 }
