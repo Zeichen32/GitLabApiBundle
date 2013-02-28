@@ -1,20 +1,20 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <h2>Fehlerberichte</h2>
+    <h2>Issues</h2>
 <table>
     <thead>
         <tr>
-            <th>Titel</th>
+            <th>Title</th>
             <th>Tags</th>
             <th>Milestone</th>
-            <th>Geschlossen</th>
-            <th>Datum</th>
+            <th>Closed</th>
+            <th>Date</th>
         </tr>
     </thead>
     <tfoot>
         <tr>
-            <th><a href="{{ path('gitlabapi_issue_new') }}" class="ym-button ym-add">Neues Issue erstellen</a></th>
+            <th><a href="{{ path('gitlabapi_issue_new') }}" class="ym-button ym-add">Create a new issue</a></th>
             <th colspan="4"></th>
         </tr>
     </tfoot>
@@ -26,6 +26,10 @@
                 <td>{% if issue.milestone %}{{ issue.milestone.title }}{% else %}n/a{% endif %}</td>
                 <td>{% if issue.closed %}ja{% else %}nein{% endif %}</td>
                 <td>{{ issue.created_at|date }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">No issues was found!</td>
             </tr>
         {% endfor %}
     </tbody>

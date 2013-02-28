@@ -10,10 +10,10 @@ class IssueType extends AbstractType {
     {
         $builder
             ->add('title', 'text', array(
-                'label' => 'Titel'
+                'label' => 'Title'
             ))
             ->add('description', 'textarea', array(
-                'label' => 'Beschreibung'
+                'label' => 'Description'
             ))
             ->add('labels', 'text', array(
                 'required' => false,

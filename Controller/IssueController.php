@@ -25,14 +25,11 @@ class IssueController extends Controller
      */
     public function listAction($page, $limit)
     {
-        /**
-         * @var $api \GitLab\Client
-         */
-        $api = $this->get('gitlab_api');
+        $api = $this->get('zeichen32_gitlabapi.client.issue');
 
         try
         {
-            $issues = $api->api('issue')->getProjectIssues($this->getProjectId(), (int) $page, (int) $limit);
+            $issues = $api->api('issues')->all($this->getProjectId());
         } catch(\Exception $e) {
             $issues = array();
         }
@@ -67,20 +64,27 @@ class IssueController extends Controller
                 /**
                  * @var $api \GitLab\Client
                  */
-                $api = $this->get('gitlab_api');
+                $api = $this->get('zeichen32_gitlabapi.client.issue');
 
                 try
                 {
                     $data = $event->getData();
-                    $api->api('issue')->createIssue($this->getProjectId(), $data['title'], $data['description'], null, null, explode(',', $data['labels']));
-                    $this->get('session')->getFlashBag()->add('success', 'Issue erstellt!');
+                    $api->api('issues')->create($this->getProjectId(), array(
+                        'title'         => $data['title'],
+                        'description'   => $data['description'],
+                        'assignee_id'   => null,
+                        'milestone_id'  => null,
+                        explode(',', $data['labels'])
+                    ));
+
+                    $this->get('session')->getFlashBag()->add('success', 'Issue created!');
 
                     $this->get('event_dispatcher')->dispatch(Events::ISSUE_CREATE_POSTSAVE, $event);
 
                     return $this->redirect($this->generateUrl('gitlabapi_issue_list'));
                 }catch(\Exception $e)
                 {
-                    $this->get('session')->getFlashBag()->add('error', 'Es trat ein unbekannter Fehler auf!');
+                    $this->get('session')->getFlashBag()->add('error', 'Unknown error!');
                     return $this->redirect($this->generateUrl('gitlabapi_issue_new'));
                 }
             }

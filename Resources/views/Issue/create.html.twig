@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-<h2>Neues Issue erstellen</h2>
+<h2>Create a new issue</h2>
 
 <form action="" method="post" {{ form_enctype(form) }} class="ym-form ym-full linearize-form" id="issue_create">
 
@@ -20,15 +20,15 @@
     <div class="ym-fbox-text {% if form.labels.vars.errors|length > 0 %}ym-error{% endif %}">
         {{ form_label(form.labels) }}
         {{ form_widget(form.labels) }}
-        <span class="ym-label">Die einzelen Tags bitte mit einem KOMMATA trennen.</span>
+        <span class="ym-label">Separate each tag with a comma.</span>
         {{ form_errors(form.labels) }}
     </div>
 
     {{ form_rest(form) }}
 
     <div class="ym-fbox-button">
-        <input type="submit" class="ym-button ym-add" id="submit" value="Issue erstellen" />
-        <a href="{{ path('gitlabapi_issue_list') }}" class="ym-button">Abbrechen</a>
+        <input type="submit" class="ym-button ym-add" id="submit" value="Create Issue" />
+        <a href="{{ path('gitlabapi_issue_list') }}" class="ym-button">Abort</a>
     </div>
 
 </form>

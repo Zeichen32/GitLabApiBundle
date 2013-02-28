@@ -21,16 +21,24 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('zeichen32_git_lab_api');
 
         $rootNode->children()
-                ->scalarNode('token')->cannotBeEmpty()->isRequired()->end()
-                ->scalarNode('url')->cannotBeEmpty()->isRequired()->end()
-                ->scalarNode('project')->cannotBeEmpty()->isRequired()->end()
+                ->arrayNode("clients")
+                    ->isRequired()
+                    ->requiresAtLeastOneElement()
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('token')->cannotBeEmpty()->isRequired()->end()
+                            ->scalarNode('url')->cannotBeEmpty()->isRequired()->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode("issue_tracker")
+                ->isRequired()
+                ->children()
+                    ->scalarNode('project')->isRequired()->defaultValue(null)->end()
+                    ->scalarNode('client')->cannotBeEmpty()->defaultValue('default')->end()
+                ->end()
             ->end()
         ;
-
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
 
         return $treeBuilder;
     }
