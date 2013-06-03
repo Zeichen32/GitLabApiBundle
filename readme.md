@@ -18,6 +18,19 @@ The preferred way to install this bundle is to rely on [Composer](http://getcomp
 }
 ```
 
+
+If installation fails for some reason, please try:
+
+``` js
+{
+    "require": {
+        // ...
+        "m4tthumphrey/php-gitlab-api": "dev-master",
+        "zeichen32/gitlabapibundle": "dev-master"
+    }
+}
+```
+
 ### Step 2: Enable the bundle
 
 Finally, enable the bundle in the kernel:
