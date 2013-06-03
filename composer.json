@@ -11,14 +11,14 @@
             "email": "j.averkamp@itm-systems.com"
         }
     ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": ">=2.1,<2.4-dev",
+        "m4tthumphrey/php-gitlab-api": "dev-master"
+    },
     "autoload": {
         "psr-0": { "Zeichen32\\GitLabApiBundle": "" }
     },
     "target-dir": "Zeichen32/GitLabApiBundle",
-    "require": {
-        "php": ">=5.3.3",
-        "symfony/framework-bundle": ">=2.1,<2.3-dev",
-        "m4tthumphrey/php-gitlab-api": "dev-master"
-    },
     "minimum-stability": "dev"
 }
