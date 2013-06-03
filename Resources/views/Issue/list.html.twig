@@ -20,11 +20,11 @@
     </tfoot>
     <tbody>
         {% for issue in issues %}
-            <tr class="{% if issue.closed %}closed{% else %}open{% endif %}">
+            <tr class="{% if issue.closed is defined and issue.closed %}closed{% else %}open{% endif %}">
                 <td>{{ issue.title }}</td>
                 <td>{% if issue.labels|length > 0 %}{{ issue.labels|join(", ") }}{% else %}n/a{% endif %}</td>
                 <td>{% if issue.milestone %}{{ issue.milestone.title }}{% else %}n/a{% endif %}</td>
-                <td>{% if issue.closed %}ja{% else %}nein{% endif %}</td>
+                <td>{% if issue.closed is defined and issue.closed %}ja{% else %}nein{% endif %}</td>
                 <td>{{ issue.created_at|date }}</td>
             </tr>
         {% else %}

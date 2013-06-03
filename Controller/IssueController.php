@@ -29,7 +29,7 @@ class IssueController extends Controller
 
         try
         {
-            $issues = $api->api('issues')->all($this->getProjectId());
+            $issues = $api->api('issues')->all($this->getProjectId(), $page, $limit);
         } catch(\Exception $e) {
             $issues = array();
         }
