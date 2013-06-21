@@ -87,7 +87,7 @@ by the "zeichen32_gitlabapi.client.CLIENT_NAME" service id.
 
 ```
 
-### Step 4: Use the gitlab issue tracker in your application (optional)
+### Step 5: Use the gitlab issue tracker in your application (optional)
 
 
 Import the routing.yml configuration file in app/config/routing.yml:
