@@ -27,17 +27,11 @@ class Zeichen32GitLabApiExtension extends Extension
         $loader->load('services.xml');
 
         $this->addClients($config['clients'], $container);
-
-        if(isset($config['issue_tracker']) && isset($config['issue_tracker']['project']) && !is_null($config['issue_tracker']['project']))
-        {
-            $this->setIssueClient($container, $config['issue_tracker']['client']);
-            $container->setParameter('zeichen32_gitlabapi.config.project', $config['issue_tracker']['project']);
-        }
     }
 
     private function addClients(array $clients, ContainerBuilder $container) {
         foreach($clients as $name => $client) {
-            $this->createClient($name, $client['url'], $client['token'], $container);
+            $this->createClient($name, $client['url'], $client['token'], $client['auth_method'], $client['options'], $container);
         }
 
         reset($clients);
@@ -48,11 +42,7 @@ class Zeichen32GitLabApiExtension extends Extension
         $container->setAlias('zeichen32_gitlabapi.client.default', sprintf('zeichen32_gitlabapi.client.%s', $name));
     }
 
-    private function setIssueClient(ContainerBuilder $container, $name) {
-        $container->setAlias('zeichen32_gitlabapi.client.issue', sprintf('zeichen32_gitlabapi.client.%s', $name));
-    }
-
-    private function createClient($name, $url, $token, ContainerBuilder $container) {
+    private function createClient($name, $url, $token, $authMethod, array $options = array(), ContainerBuilder $container) {
 
         $definition = new Definition('%zeichen32_gitlabapi.client.class%', array(
             $url
@@ -60,10 +50,17 @@ class Zeichen32GitLabApiExtension extends Extension
 
         $definition->addMethodCall('authenticate', array(
             $token,
-            'url_token'
-        ))
-            ->setScope('request')
-        ;
+            $authMethod
+        ));
+
+        if(count($options) > 0) {
+            foreach($options as $key => $value) {
+                $definition->addMethodCall('setOption', array(
+                    $key,
+                    $value
+                ));
+            }
+        }
 
         $container->setDefinition(
             sprintf('zeichen32_gitlabapi.client.%s', $name),

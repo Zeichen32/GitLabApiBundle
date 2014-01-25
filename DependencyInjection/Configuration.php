@@ -2,6 +2,7 @@
 
 namespace Zeichen32\GitLabApiBundle\DependencyInjection;
 
+use Gitlab\Client;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -25,19 +26,36 @@ class Configuration implements ConfigurationInterface
                     ->isRequired()
                     ->requiresAtLeastOneElement()
                     ->prototype('array')
+                        ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('token')->cannotBeEmpty()->isRequired()->end()
-                            ->scalarNode('url')->cannotBeEmpty()->isRequired()->end()
+                            ->scalarNode('token')
+                                ->cannotBeEmpty()
+                                ->isRequired()
+                            ->end()
+                            ->scalarNode('url')
+                                ->cannotBeEmpty()
+                                ->isRequired()
+                            ->end()
+                            ->scalarNode('auth_method')
+                                ->defaultValue(Client::AUTH_HTTP_TOKEN)
+                                ->validate()
+                                ->ifNotInArray(array(Client::AUTH_URL_TOKEN, Client::AUTH_HTTP_TOKEN))
+                                    ->thenInvalid('Invalid Auhtmethod "%s"')
+                                ->end()
+                            ->end()
+                            ->arrayNode('options')
+                                ->addDefaultsIfNotSet()
+                                ->children()
+                                    ->integerNode('timeout')
+                                    ->cannotBeEmpty()
+                                    ->defaultValue(60)
+                                ->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode("issue_tracker")
-                ->isRequired()
-                ->children()
-                    ->scalarNode('project')->isRequired()->defaultValue(null)->end()
-                    ->scalarNode('client')->cannotBeEmpty()->defaultValue('default')->end()
-                ->end()
             ->end()
+        ->end()
         ;
 
         return $treeBuilder;

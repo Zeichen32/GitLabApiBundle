@@ -1,9 +1,11 @@
 Getting Started With Zeichen32GitLabApiBundle
 =========================================
 
-Integrate the [Gitlab API Wrapper](https://github.com/m4tthumphrey/php-gitlab-api) into your symfony project.
+This Bundle integrate the [Gitlab API Wrapper](https://github.com/m4tthumphrey/php-gitlab-api) into your Symfony2 Project.
 
-As an optional bonus, this bundle provides a basic issue tracker to create and show issue tickets in your GitLab Project.
+Attention:
+I have refactor the whole bundle and have remove the issue tracker to decouple the issue tracker from the bundle.
+The old version with the issue tracker is still available in the 1.0.x Branche
 
 ### Step 1: Install Zeichen32GitLabApiBundle
 
@@ -13,20 +15,7 @@ The preferred way to install this bundle is to rely on [Composer](http://getcomp
 {
     "require": {
         // ...
-        "zeichen32/gitlabapibundle": "dev-master"
-    }
-}
-```
-
-
-If installation fails for some reason, please try:
-
-``` js
-{
-    "require": {
-        // ...
-        "m4tthumphrey/php-gitlab-api": "dev-master",
-        "zeichen32/gitlabapibundle": "dev-master"
+        "zeichen32/gitlabapibundle": "~2.0"
     }
 }
 ```
@@ -87,28 +76,20 @@ by the "zeichen32_gitlabapi.client.CLIENT_NAME" service id.
 
 ```
 
-### Step 5: Use the gitlab issue tracker in your application (optional)
+For more information about using the api, take a look at the [Gitlab Client Documentation](https://github.com/m4tthumphrey/php-gitlab-api).
 
+### Step 5: Configuration Reference
 
-Import the routing.yml configuration file in app/config/routing.yml:
-
-``` yaml
-# app/config/routing.yml
-zeichen32_git_lab_api:
-    resource: "@Zeichen32GitLabApiBundle/Resources/config/routing/issues.xml"
-    prefix:   /issue
-```
-
-Add Zeichen32GitLabApiBundle settings in app/config/config.yml:
+All available configuration options are listed below with their default values.
 
 ``` yaml
-# app/config/config.yml
+
 zeichen32_git_lab_api:
-    # ...
-    issue_tracker:
-        project: your-project-id
-        client: your-client-name [optional]
+    clients:              # Required
+        token:                ~ # Required
+        url:                  ~ # Required
+        auth_method:          http_token
+        options:
+            timeout:              60
+
 ```
-
-
-

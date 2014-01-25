@@ -1,8 +1,8 @@
 {
     "name": "zeichen32/gitlabapibundle",
-    "description": "Symfony2 Bundle to include the gitlab api and the gitlab issue tracker in your app.",
+    "description": "Symfony2 Bundle to include the gitlab api.",
     "type": "symfony-bundle",
-    "keywords": ["gitlab", "issue", "issuetracker", "api"],
+    "keywords": ["gitlab", "api"],
     "homepage": "https://github.com/Zeichen32/GitLabApiBundle",
     "license": "MIT",
     "authors": [
@@ -12,13 +12,11 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "symfony/framework-bundle": ">=2.1,<2.4-dev",
-        "m4tthumphrey/php-gitlab-api": "dev-master"
+        "symfony/framework-bundle": "~2.1",
+        "m4tthumphrey/php-gitlab-api": "6.*"
     },
     "autoload": {
         "psr-0": { "Zeichen32\\GitLabApiBundle": "" }
     },
-    "target-dir": "Zeichen32/GitLabApiBundle",
-    "minimum-stability": "dev"
+    "target-dir": "Zeichen32/GitLabApiBundle"
 }
