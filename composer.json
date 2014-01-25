@@ -18,5 +18,10 @@
     "autoload": {
         "psr-0": { "Zeichen32\\GitLabApiBundle": "" }
     },
-    "target-dir": "Zeichen32/GitLabApiBundle"
+    "target-dir": "Zeichen32/GitLabApiBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
 }
