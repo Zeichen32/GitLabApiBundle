@@ -31,7 +31,7 @@ class Zeichen32GitLabApiExtension extends Extension
 
     private function addClients(array $clients, ContainerBuilder $container) {
         foreach($clients as $name => $client) {
-            $this->createClient($name, $client['url'], $client['token'], $client['auth_method'], $client['options'], $container);
+            $this->createClient($name, $client['url'], $client['token'], $client['auth_method'], $client['sudo'], $client['options'], $container);
         }
 
         reset($clients);
@@ -42,7 +42,7 @@ class Zeichen32GitLabApiExtension extends Extension
         $container->setAlias('zeichen32_gitlabapi.client.default', sprintf('zeichen32_gitlabapi.client.%s', $name));
     }
 
-    private function createClient($name, $url, $token, $authMethod, array $options = array(), ContainerBuilder $container) {
+    private function createClient($name, $url, $token, $authMethod, $sudo, array $options = array(), ContainerBuilder $container) {
 
         $definition = new Definition('%zeichen32_gitlabapi.client.class%', array(
             $url
@@ -50,15 +50,18 @@ class Zeichen32GitLabApiExtension extends Extension
 
         $definition->addMethodCall('authenticate', array(
             $token,
-            $authMethod
+            $authMethod,
+            $sudo
         ));
 
         if(count($options) > 0) {
             foreach($options as $key => $value) {
-                $definition->addMethodCall('setOption', array(
-                    $key,
-                    $value
-                ));
+                if(null !== $value) {
+                    $definition->addMethodCall('setOption', array(
+                        $key,
+                        $value
+                    ));
+                }
             }
         }
 

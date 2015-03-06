@@ -10,7 +10,6 @@
 
 namespace eichen32\GitLabApiBundle;
 
-
 use Zeichen32\GitLabApiBundle\Zeichen32GitLabApiBundle;
 
 class Zeichen32GitLabApiBundleTest extends \PHPUnit_Framework_TestCase {
@@ -20,9 +19,11 @@ class Zeichen32GitLabApiBundleTest extends \PHPUnit_Framework_TestCase {
         $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerBuilder')
                           ->setMethods(array('addCompilerPass'))
                           ->getMock();
-        $container->expects($this->exactly(4))
+
+        $container->expects($this->exactly(0))
                   ->method('addCompilerPass')
                   ->with($this->isInstanceOf('\Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface'));
+
         $bundle = new Zeichen32GitLabApiBundle();
         $bundle->build($container);
     }
