@@ -1,6 +1,8 @@
 Getting Started With Zeichen32GitLabApiBundle
 =========================================
 
+[![Build Status](https://travis-ci.org/Zeichen32/GitLabApiBundle.svg)](https://travis-ci.org/Zeichen32/GitLabApiBundle)
+
 This Bundle integrate the [Gitlab API Wrapper](https://github.com/m4tthumphrey/php-gitlab-api) into your Symfony2 Project.
 
 Attention:
@@ -48,10 +50,15 @@ zeichen32_git_lab_api:
         firstclient:
             token: your-api-token
             url: http://your-gitlab-url.com/api/v3/
-
+            auth_method: url_token
         secondclient:
             token: your-api-token
             url: http://your-gitlab-url.com/api/v3/
+            auth_method: http_token
+            sudo: 1
+            options:
+                timeout: 60
+                user_agent: MyApp (http://example.org)
 ```
 
 The first client is defined automatically as your default client.
@@ -89,8 +96,10 @@ zeichen32_git_lab_api:
         token:                ~ # Required
         url:                  ~ # Required
         auth_method:          http_token
+        sudo: 1
         options:
-            timeout:              60
+            timeout: 60
+            user_agent: MyApp (http://example.org)
 
 ```
 
