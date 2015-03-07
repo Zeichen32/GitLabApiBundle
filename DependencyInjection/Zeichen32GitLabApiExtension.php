@@ -29,20 +29,47 @@ class Zeichen32GitLabApiExtension extends Extension
         $this->addClients($config['clients'], $container);
     }
 
+    /**
+     * @param array $clients
+     * @param ContainerBuilder $container
+     */
     private function addClients(array $clients, ContainerBuilder $container) {
         foreach($clients as $name => $client) {
-            $this->createClient($name, $client['url'], $client['token'], $client['auth_method'], $client['sudo'], $client['options'], $container);
+            $this->createClient(
+                $name,
+                $client['url'],
+                $client['token'],
+                $client['auth_method'],
+                $client['sudo'],
+                $client['alias'],
+                $client['options'],
+                $container
+            );
         }
 
         reset($clients);
         $this->setDefaultClient(key($clients), $container);
     }
 
+    /**
+     * @param $name
+     * @param ContainerBuilder $container
+     */
     private function setDefaultClient($name, ContainerBuilder $container) {
         $container->setAlias('zeichen32_gitlabapi.client.default', sprintf('zeichen32_gitlabapi.client.%s', $name));
     }
 
-    private function createClient($name, $url, $token, $authMethod, $sudo, array $options = array(), ContainerBuilder $container) {
+    /**
+     * @param $name
+     * @param $url
+     * @param $token
+     * @param $authMethod
+     * @param $sudo
+     * @param $alias
+     * @param array $options
+     * @param ContainerBuilder $container
+     */
+    private function createClient($name, $url, $token, $authMethod, $sudo, $alias, array $options = array(), ContainerBuilder $container) {
 
         $definition = new Definition('%zeichen32_gitlabapi.client.class%', array(
             $url
@@ -69,5 +96,9 @@ class Zeichen32GitLabApiExtension extends Extension
             sprintf('zeichen32_gitlabapi.client.%s', $name),
             $definition
         );
+
+        if(null !== $alias) {
+            $container->setAlias($alias, sprintf('zeichen32_gitlabapi.client.%s', $name));
+        }
     }
 }

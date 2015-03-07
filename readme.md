@@ -49,16 +49,20 @@ zeichen32_git_lab_api:
     clients:
         firstclient:
             token: your-api-token
-            url: http://your-gitlab-url.com/api/v3/
+            url: http://example.org/api/v3/
             auth_method: url_token
         secondclient:
             token: your-api-token
-            url: http://your-gitlab-url.com/api/v3/
+            url: http://example.org/api/v3/
             auth_method: http_token
             sudo: 1
             options:
                 timeout: 60
                 user_agent: MyApp (http://example.org)
+        thirdclient:
+            token: your-api-token
+            url: http://example.org/api/v3/
+            alias: custom_alias
 ```
 
 The first client is defined automatically as your default client.
@@ -83,6 +87,14 @@ by the "zeichen32_gitlabapi.client.CLIENT_NAME" service id.
 
 ```
 
+Or if you set alias option:
+
+``` php
+        $api = $this->get('custom_alias');
+        $issues = $api->api('issues')->all($project_id);
+
+```
+
 For more information about using the api, take a look at the [Gitlab Client Documentation](https://github.com/m4tthumphrey/php-gitlab-api).
 
 ### Step 5: Configuration Reference
@@ -95,11 +107,12 @@ zeichen32_git_lab_api:
     clients:              # Required
         token:                ~ # Required
         url:                  ~ # Required
-        auth_method:          http_token
-        sudo: 1
+        auth_method:          ~ http_token|url_token|oauth_token
+        sudo:                 ~
+        alias:                ~
         options:
-            timeout: 60
-            user_agent: MyApp (http://example.org)
+            timeout:            ~
+            user_agent:         ~
 
 ```
 

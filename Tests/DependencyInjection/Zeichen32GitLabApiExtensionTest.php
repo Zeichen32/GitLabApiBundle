@@ -49,12 +49,18 @@ class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
 
         $this->extension->load($config, $this->container);
         $this->assertTrue($this->container->hasAlias('zeichen32_gitlabapi.client.default'));
+        $this->assertTrue($this->container->has('gitlab_api'));
         $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.firstclient'));
         $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.secondclient'));
 
         $this->assertInstanceOf('Gitlab\Client', $this->container->get('zeichen32_gitlabapi.client.default'));
         $this->assertInstanceOf('Gitlab\Client', $this->container->get('zeichen32_gitlabapi.client.firstclient'));
         $this->assertInstanceOf('Gitlab\Client', $this->container->get('zeichen32_gitlabapi.client.secondclient'));
+
+        $this->assertNotSame(
+            $this->container->get('zeichen32_gitlabapi.client.firstclient'),
+            $this->container->get('zeichen32_gitlabapi.client.secondclient')
+        );
     }
 
     /**
@@ -92,11 +98,45 @@ class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
 
         $this->extension->load($config, $this->container);
         $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.default'));
+        $this->assertTrue($this->container->has('gitlab_api'));
 
         /** @var Client $client */
         $client = $this->container->get('zeichen32_gitlabapi.client.default');
         $this->assertEquals(120, $client->getOption('timeout'));
         $this->assertEquals('TestAgent', $client->getOption('user_agent'));
 
+    }
+
+    public function testClientAlias() {
+        $config = array(
+            'zeichen32_git_lab_api' => array('clients' => array(
+                'firstclient' => array(
+                    'token' => '12345',
+                    'url' => 'http://example.org/api/v3/',
+                    'alias' => 'test.client',
+                ),
+            )),
+        );
+
+        $this->extension->load($config, $this->container);
+        $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.default'));
+        $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.firstclient'));
+        $this->assertTrue($this->container->has('gitlab_api'));
+        $this->assertTrue($this->container->has('test.client'));
+
+        $this->assertSame(
+            $this->container->get('zeichen32_gitlabapi.client.firstclient'),
+            $this->container->get('zeichen32_gitlabapi.client.default')
+        );
+
+        $this->assertSame(
+            $this->container->get('zeichen32_gitlabapi.client.firstclient'),
+            $this->container->get('gitlab_api')
+        );
+
+        $this->assertSame(
+            $this->container->get('zeichen32_gitlabapi.client.firstclient'),
+            $this->container->get('test.client')
+        );
     }
 }
