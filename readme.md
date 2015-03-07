@@ -110,7 +110,7 @@ zeichen32_git_lab_api:
         auth_method:          ~ http_token|url_token|oauth_token
         sudo:                 ~
         alias:                ~
-        http_client           ~ # Buzz client service id
+        http_client:          ~ # Buzz client service id
         options:
             timeout:            ~
             user_agent:         ~
