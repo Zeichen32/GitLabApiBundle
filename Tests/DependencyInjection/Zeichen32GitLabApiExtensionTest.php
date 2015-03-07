@@ -12,6 +12,7 @@ namespace Zeichen32\GitLabApiBundle\Tests\DependencyInjection;
 
 use Gitlab\Client;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Zeichen32\GitLabApiBundle\DependencyInjection\Zeichen32GitLabApiExtension;
 
 class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
@@ -137,6 +138,39 @@ class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
         $this->assertSame(
             $this->container->get('zeichen32_gitlabapi.client.firstclient'),
             $this->container->get('test.client')
+        );
+    }
+
+    public function testHttpClients() {
+
+        $config = array(
+            'zeichen32_git_lab_api' => array('clients' => array(
+                'firstclient' => array(
+                    'token' => '12345',
+                    'url' => 'http://example.org/api/v3/',
+                ),
+                'secondclient' => array(
+                    'token' => '12345',
+                    'url' => 'http://example.org/api/v3/',
+                    'http_client' => 'http.client',
+                ),
+            )),
+        );
+
+        $httpClient = new Definition('Buzz\Client\FileGetContents');
+        $httpClient->setPublic(false);
+        $this->container->setDefinition('http.client', $httpClient);
+
+        $this->extension->load($config, $this->container);
+
+        $this->assertInstanceOf(
+            'Buzz\Client\Curl',
+            $this->container->get('zeichen32_gitlabapi.http.client.firstclient')
+        );
+
+        $this->assertInstanceOf(
+            'Buzz\Client\FileGetContents',
+            $this->container->get('zeichen32_gitlabapi.http.client.secondclient')
         );
     }
 }

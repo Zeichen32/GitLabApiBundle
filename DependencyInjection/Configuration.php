@@ -1,4 +1,12 @@
 <?php
+/**
+ * Created by Two Developers - Sven Motz und Jens Averkamp GbR
+ * http://www.two-developers.com
+ *
+ * Developer: Jens Averkamp
+ * Date: 06.03.2015
+ * Time: 14:15
+ */
 
 namespace Zeichen32\GitLabApiBundle\DependencyInjection;
 
@@ -42,6 +50,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->scalarNode('sudo')->defaultValue(null)->end()
                             ->scalarNode('alias')->defaultValue(null)->end()
+                            ->scalarNode('http_client')->defaultValue(null)->end()
                             ->arrayNode('options')
                                 ->addDefaultsIfNotSet()
                                 ->children()

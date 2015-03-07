@@ -14,6 +14,9 @@ use Zeichen32\GitLabApiBundle\Zeichen32GitLabApiBundle;
 
 class Zeichen32GitLabApiBundleTest extends \PHPUnit_Framework_TestCase {
 
+    /**
+     *
+     */
     public function testBuild()
     {
         $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerBuilder')

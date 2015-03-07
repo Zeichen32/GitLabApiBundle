@@ -1,10 +1,19 @@
 <?php
+/**
+ * Created by Two Developers - Sven Motz und Jens Averkamp GbR
+ * http://www.two-developers.com
+ *
+ * Developer: Jens Averkamp
+ * Date: 06.03.2015
+ * Time: 14:15
+ */
 
 namespace Zeichen32\GitLabApiBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -26,6 +35,11 @@ class Zeichen32GitLabApiExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        // Create default Buzz HttpClient
+        $httpClient = new Definition('Buzz\Client\Curl');
+        $httpClient->setPublic(false);
+        $container->setDefinition('zeichen32_gitlabapi.http.curl', $httpClient);
+
         $this->addClients($config['clients'], $container);
     }
 
@@ -42,6 +56,7 @@ class Zeichen32GitLabApiExtension extends Extension
                 $client['auth_method'],
                 $client['sudo'],
                 $client['alias'],
+                null === $client['http_client'] ? 'zeichen32_gitlabapi.http.curl' : $client['http_client'],
                 $client['options'],
                 $container
             );
@@ -69,18 +84,16 @@ class Zeichen32GitLabApiExtension extends Extension
      * @param array $options
      * @param ContainerBuilder $container
      */
-    private function createClient($name, $url, $token, $authMethod, $sudo, $alias, array $options = array(), ContainerBuilder $container) {
+    private function createClient($name, $url, $token, $authMethod, $sudo, $alias, $httpClient, array $options = array(), ContainerBuilder $container) {
+
+        // Create alias for Buzz HttpClient
+        $container->setAlias(sprintf('zeichen32_gitlabapi.http.client.%s', $name), $httpClient);
 
         $definition = new Definition('%zeichen32_gitlabapi.client.class%', array(
-            $url
+            $url, new Reference(sprintf('zeichen32_gitlabapi.http.client.%s', $name))
         ));
 
-        $definition->addMethodCall('authenticate', array(
-            $token,
-            $authMethod,
-            $sudo
-        ));
-
+        // Set Client Options
         if(count($options) > 0) {
             foreach($options as $key => $value) {
                 if(null !== $value) {
@@ -92,11 +105,20 @@ class Zeichen32GitLabApiExtension extends Extension
             }
         }
 
+        // Call authenticate method
+        $definition->addMethodCall('authenticate', array(
+            $token,
+            $authMethod,
+            $sudo
+        ));
+
+        // Add Service to Container
         $container->setDefinition(
             sprintf('zeichen32_gitlabapi.client.%s', $name),
             $definition
         );
 
+        // If alias option is set, create a new alias
         if(null !== $alias) {
             $container->setAlias($alias, sprintf('zeichen32_gitlabapi.client.%s', $name));
         }
