@@ -90,6 +90,7 @@ class Zeichen32GitLabApiExtension extends Extension
             $definition = new Definition('%zeichen32_gitlabapi.client.class%');
             $definition->addArgument(new Reference($httpClient));
             $definition->setFactory(array('Gitlab\Client', 'createWithHttpClient'));
+            $definition->addMethodCall('setUrl', array($url));
         } else {
             $definition = new Definition('%zeichen32_gitlabapi.client.class%');
             $definition->addArgument($url);
