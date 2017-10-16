@@ -13,19 +13,20 @@ branches:
 matrix:
   include:
     - php: 5.6
+      env: SYMFONY_VERSION='2.6.*'
+    - php: 5.6
       env: SYMFONY_VERSION='2.7.*'
     - php: 5.6
       env: SYMFONY_VERSION='2.8.*'
-    - php: 5.6
-      env: SYMFONY_VERSION='2.3.* symfony/expression-language:2.4.* m4tthumphrey/php-gitlab-api:9.*'
-    - php: 5.6
-      env: SYMFONY_VERSION='2.7.* m4tthumphrey/php-gitlab-api:9.*'
-    - php: 5.6
-      env: SYMFONY_VERSION='2.8.* m4tthumphrey/php-gitlab-api:9.*'
-    - php: 5.6
-      env: SYMFONY_VERSION='3.0.* m4tthumphrey/php-gitlab-api:9.*'
-    - php: 5.6
-      env: SYMFONY_VERSION='3.3.* m4tthumphrey/php-gitlab-api:9.*'
+    - php: 7.1
+      env: SYMFONY_VERSION='3.0.*'
+    - php: 7.1
+      env: SYMFONY_VERSION='3.1.*'
+    - php: 7.1
+      env: SYMFONY_VERSION='3.2.*'
+    - php: 7.1
+      env: SYMFONY_VERSION='3.3.*'
+  fast_finish: true
   allow_failures:
     - php: nightly
 
