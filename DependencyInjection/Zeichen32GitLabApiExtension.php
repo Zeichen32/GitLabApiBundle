@@ -36,9 +36,9 @@ class Zeichen32GitLabApiExtension extends Extension
         $loader->load('services.xml');
 
         // Create default Buzz HttpClient
-        $httpClient = new Definition('Buzz\Client\Curl');
-        $httpClient->setPublic(false);
-        $container->setDefinition('zeichen32_gitlabapi.http.curl', $httpClient);
+       // $httpClient = new Definition('Buzz\Client\Curl');
+       // $httpClient->setPublic(false);
+       // $container->setDefinition('zeichen32_gitlabapi.http.curl', $httpClient);
 
         $this->addClients($config['clients'], $container);
     }
@@ -56,8 +56,7 @@ class Zeichen32GitLabApiExtension extends Extension
                 $client['auth_method'],
                 $client['sudo'],
                 $client['alias'],
-                null === $client['http_client'] ? 'zeichen32_gitlabapi.http.curl' : $client['http_client'],
-                $client['options'],
+                $client['http_client'],
                 $container
             );
         }
@@ -81,28 +80,20 @@ class Zeichen32GitLabApiExtension extends Extension
      * @param $authMethod
      * @param $sudo
      * @param $alias
-     * @param array $options
      * @param ContainerBuilder $container
      */
-    private function createClient($name, $url, $token, $authMethod, $sudo, $alias, $httpClient, array $options = array(), ContainerBuilder $container) {
+    private function createClient($name, $url, $token, $authMethod, $sudo, $alias, $httpClient, ContainerBuilder $container) {
+        // Create new client if needed
+        if (null !== $httpClient) {
+            $container->setAlias(sprintf('zeichen32_gitlabapi.http.client.%s', $name), $httpClient);
 
-        // Create alias for Buzz HttpClient
-        $container->setAlias(sprintf('zeichen32_gitlabapi.http.client.%s', $name), $httpClient);
-
-        $definition = new Definition('%zeichen32_gitlabapi.client.class%', array(
-            $url, new Reference(sprintf('zeichen32_gitlabapi.http.client.%s', $name))
-        ));
-
-        // Set Client Options
-        if(count($options) > 0) {
-            foreach($options as $key => $value) {
-                if(null !== $value) {
-                    $definition->addMethodCall('setOption', array(
-                        $key,
-                        $value
-                    ));
-                }
-            }
+            $definition = new Definition('%zeichen32_gitlabapi.client.class%');
+            $definition->addArgument(new Reference($httpClient));
+            $definition->setFactory(array('Gitlab\Client', 'createWithHttpClient'));
+        } else {
+            $definition = new Definition('%zeichen32_gitlabapi.client.class%');
+            $definition->addArgument($url);
+            $definition->setFactory(array('Gitlab\Client', 'create'));
         }
 
         // Call authenticate method

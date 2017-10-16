@@ -81,33 +81,6 @@ class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
         $this->extension->load($config, $this->container);
     }
 
-    public function testOptions() {
-        $config = array(
-            'zeichen32_git_lab_api' => array('clients' => array(
-                'firstclient' => array(
-                    'token' => '12345',
-                    'url' => 'http://example.org/api/v3/',
-                    'auth_method' => Client::AUTH_URL_TOKEN,
-                    'sudo' => '1',
-                    'options' => array(
-                        'timeout' => 120,
-                        'user_agent' => 'TestAgent',
-                    )
-                ),
-            )),
-        );
-
-        $this->extension->load($config, $this->container);
-        $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.default'));
-        $this->assertTrue($this->container->has('gitlab_api'));
-
-        /** @var Client $client */
-        $client = $this->container->get('zeichen32_gitlabapi.client.default');
-        $this->assertEquals(120, $client->getOption('timeout'));
-        $this->assertEquals('TestAgent', $client->getOption('user_agent'));
-
-    }
-
     public function testClientAlias() {
         $config = array(
             'zeichen32_git_lab_api' => array('clients' => array(
@@ -157,20 +130,23 @@ class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
             )),
         );
 
-        $httpClient = new Definition('Buzz\Client\FileGetContents');
-        $httpClient->setPublic(false);
-        $this->container->setDefinition('http.client', $httpClient);
+        $httpClient = $this->getMock('Http\Client\HttpClient');
+        $httpClient->method('foo')->willReturn(true);
+        $this->container->setDefinition('http.client', new Definition($httpClient));
 
         $this->extension->load($config, $this->container);
 
+        $firstClient = $this->container->get('zeichen32_gitlabapi.client.firstclient');
+        $secondClient = $this->container->get('zeichen32_gitlabapi.client.secondclient');
+
         $this->assertInstanceOf(
-            'Buzz\Client\Curl',
-            $this->container->get('zeichen32_gitlabapi.http.client.firstclient')
+            'Http\Client\HttpClient',
+            $firstClient->getHttpClient()
         );
 
         $this->assertInstanceOf(
-            'Buzz\Client\FileGetContents',
-            $this->container->get('zeichen32_gitlabapi.http.client.secondclient')
+            'Http\Client\HttpClient',
+            $secondClient->getHttpClient()
         );
     }
 }

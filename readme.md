@@ -17,7 +17,7 @@ The preferred way to install this bundle is to rely on [Composer](http://getcomp
 {
     "require": {
         // ...
-        "zeichen32/gitlabapibundle": "~2.0"
+        "zeichen32/gitlabapibundle": "~3.0"
     }
 }
 ```
@@ -56,9 +56,6 @@ zeichen32_git_lab_api:
             url: http://example.org/api/v3/
             auth_method: http_token
             sudo: 1
-            options:
-                timeout: 60
-                user_agent: MyApp (http://example.org)
         thirdclient:
             token: your-api-token
             url: http://example.org/api/v3/
@@ -110,10 +107,7 @@ zeichen32_git_lab_api:
         auth_method:          ~ http_token|url_token|oauth_token
         sudo:                 ~
         alias:                ~
-        http_client:          ~ # Buzz client service id
-        options:
-            timeout:            ~
-            user_agent:         ~
+        http_client:          ~ # http plug client service id
 
 ```
 
