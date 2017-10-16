@@ -1,12 +1,10 @@
 language: php
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
   - 5.6
+  - 7.0
+  - 7.1
   - nightly
-  - hhvm
 
 branches:
   only:
@@ -15,25 +13,19 @@ branches:
 matrix:
   include:
     - php: 5.6
-      env: SYMFONY_VERSION='2.3.* symfony/expression-language:2.4.*'
-    - php: 5.6
-      env: SYMFONY_VERSION=2.4.*
-    - php: 5.6
-      env: SYMFONY_VERSION=2.6.*
-    - php: 5.6
       env: SYMFONY_VERSION='2.7.*'
     - php: 5.6
       env: SYMFONY_VERSION='2.8.*'
     - php: 5.6
-      env: SYMFONY_VERSION='2.3.* symfony/expression-language:2.4.* m4tthumphrey/php-gitlab-api:6.*'
+      env: SYMFONY_VERSION='2.3.* symfony/expression-language:2.4.* m4tthumphrey/php-gitlab-api:9.*'
     - php: 5.6
-      env: SYMFONY_VERSION='2.4.* m4tthumphrey/php-gitlab-api:6.*'
+      env: SYMFONY_VERSION='2.7.* m4tthumphrey/php-gitlab-api:9.*'
     - php: 5.6
-      env: SYMFONY_VERSION='2.6.* m4tthumphrey/php-gitlab-api:6.*'
+      env: SYMFONY_VERSION='2.8.* m4tthumphrey/php-gitlab-api:9.*'
     - php: 5.6
-      env: SYMFONY_VERSION='2.7.* m4tthumphrey/php-gitlab-api:6.*'
+      env: SYMFONY_VERSION='3.0.* m4tthumphrey/php-gitlab-api:9.*'
     - php: 5.6
-      env: SYMFONY_VERSION='2.8.* m4tthumphrey/php-gitlab-api:6.*'
+      env: SYMFONY_VERSION='3.3.* m4tthumphrey/php-gitlab-api:9.*'
   allow_failures:
     - php: nightly
 
