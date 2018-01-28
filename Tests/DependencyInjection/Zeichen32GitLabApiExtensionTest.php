@@ -10,12 +10,12 @@
 
 namespace Zeichen32\GitLabApiBundle\Tests\DependencyInjection;
 
-use Gitlab\Client;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Zeichen32\GitLabApiBundle\DependencyInjection\Zeichen32GitLabApiExtension;
 
-class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
+class Zeichen32GitLabApiExtensionTest extends TestCase {
 
     /**
      * @var ContainerBuilder
@@ -130,8 +130,7 @@ class Zeichen32GitLabApiExtensionTest extends \PHPUnit_Framework_TestCase{
             )),
         );
 
-        $httpClient = $this->getMock('Http\Client\HttpClient');
-        $httpClient->method('foo')->willReturn(true);
+        $httpClient = $this->createMock('Http\Client\HttpClient');
         $this->container->setDefinition('http.client', new Definition($httpClient));
 
         $this->extension->load($config, $this->container);
