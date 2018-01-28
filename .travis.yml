@@ -3,7 +3,6 @@ language: php
 php:
   - 7.1
   - 7.2
-  - nightly
 
 branches:
   only:
@@ -13,8 +12,6 @@ matrix:
   include:
     - php: 7.2
       env: SYMFONY_VERSION='3.3.*'
-    - php: 7.2
-      env: SYMFONY_VERSION='3.4.*'
     - php: 7.2
       env: SYMFONY_VERSION='3.4.*'
     - php: 7.2
