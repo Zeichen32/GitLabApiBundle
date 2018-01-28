@@ -8,11 +8,12 @@
  * Time: 14:15
  */
 
-namespace eichen32\GitLabApiBundle;
+namespace Zeichen32\GitLabApiBundle;
 
+use PHPUnit\Framework\TestCase;
 use Zeichen32\GitLabApiBundle\Zeichen32GitLabApiBundle;
 
-class Zeichen32GitLabApiBundleTest extends \PHPUnit_Framework_TestCase {
+class Zeichen32GitLabApiBundleTest extends TestCase {
 
     /**
      *
