@@ -9,6 +9,6 @@
     </parameters>
 
     <services>
-        <service id="gitlab_api" alias="zeichen32_gitlabapi.client.default" />
+        <service id="gitlab_api" alias="zeichen32_gitlabapi.client.default" public="true" />
     </services>
 </container>
