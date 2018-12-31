@@ -26,8 +26,14 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('zeichen32_git_lab_api');
+        $treeBuilder = new TreeBuilder('zeichen32_gi_lab_api');
+
+        if (\method_exists(TreeBuilder::class, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // BC layer for symfony/config 4.1 and older
+            $rootNode = $treeBuilder->root('zeichen32_git_lab_api');
+        }
 
         $rootNode->children()
                 ->arrayNode("clients")
