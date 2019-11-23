@@ -1,6 +1,6 @@
 {
     "name": "zeichen32/gitlabapibundle",
-    "description": "Symfony2 Bundle to include the gitlab api.",
+    "description": "Symfony Bundle to include the gitlab api.",
     "type": "symfony-bundle",
     "keywords": ["gitlab", "api"],
     "homepage": "https://github.com/Zeichen32/GitLabApiBundle",
@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^5.6 || ^7.0",
-        "symfony/framework-bundle": "^2.6|^3.0|^4.0",
+        "symfony/framework-bundle": "^2.6|^3.0|^4.0|^5.0",
         "m4tthumphrey/php-gitlab-api": "^9"
     },
     "require-dev" : {
