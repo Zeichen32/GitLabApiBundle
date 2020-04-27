@@ -10,7 +10,9 @@
 
 namespace Zeichen32\GitLabApiBundle\Tests\DependencyInjection;
 
+use Http\Client\HttpClient;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Zeichen32\GitLabApiBundle\DependencyInjection\Zeichen32GitLabApiExtension;
@@ -27,13 +29,13 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
     private $extension;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->extension = new Zeichen32GitLabApiExtension();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->container, $this->extension);
     }
@@ -64,10 +66,9 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
         );
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
     public function testWrongAuthMethod() {
+        $this->expectException(InvalidConfigurationException::class);
+
         $config = array(
             'zeichen32_git_lab_api' => array('clients' => array(
                 'firstclient' => array(
@@ -130,8 +131,9 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
             )),
         );
 
-        $httpClient = $this->createMock('Http\Client\HttpClient');
-        $this->container->setDefinition('http.client', new Definition($httpClient));
+        $httpClient = $this->createMock(HttpClient::class);
+        $this->container->setDefinition('http.client', new Definition(HttpClient::class));
+        $this->container->set('http.client', $httpClient);
 
         $this->extension->load($config, $this->container);
 
@@ -139,12 +141,12 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
         $secondClient = $this->container->get('zeichen32_gitlabapi.client.secondclient');
 
         $this->assertInstanceOf(
-            'Http\Client\HttpClient',
+            HttpClient::class,
             $firstClient->getHttpClient()
         );
 
         $this->assertInstanceOf(
-            'Http\Client\HttpClient',
+            HttpClient::class,
             $secondClient->getHttpClient()
         );
     }
