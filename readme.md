@@ -5,9 +5,6 @@ Getting Started With Zeichen32GitLabApiBundle
 
 This Bundle integrate the [Gitlab API Wrapper](https://github.com/m4tthumphrey/php-gitlab-api) into your Symfony2 Project.
 
-Attention:
-I have refactor the whole bundle and have remove the issue tracker to decouple the issue tracker from the bundle.
-The old version with the issue tracker is still available in the 1.0.x Branche
 
 ### Step 1: Install Zeichen32GitLabApiBundle
 
@@ -17,7 +14,7 @@ The preferred way to install this bundle is to rely on [Composer](http://getcomp
 {
     "require": {
         // ...
-        "zeichen32/gitlabapibundle": "~3.0"
+        "zeichen32/gitlabapibundle": "~4.0"
     }
 }
 ```
