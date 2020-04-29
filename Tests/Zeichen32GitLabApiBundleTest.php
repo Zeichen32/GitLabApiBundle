@@ -8,7 +8,7 @@
  * Time: 14:15
  */
 
-namespace Zeichen32\GitLabApiBundle;
+namespace Zeichen32\GitLabApiBundle\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Zeichen32\GitLabApiBundle\Zeichen32GitLabApiBundle;
