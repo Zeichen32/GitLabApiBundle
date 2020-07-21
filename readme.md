@@ -14,6 +14,7 @@ The preferred way to install this bundle is to rely on [Composer](https://getcom
 {
     "require": {
         // ...
+        "php-http/guzzle6-adapter:^2.0.1",  // Or any other compatible PSR client
         "zeichen32/gitlabapibundle": "~4.0"
     }
 }
