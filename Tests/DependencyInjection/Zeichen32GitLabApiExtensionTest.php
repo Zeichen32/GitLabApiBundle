@@ -10,6 +10,7 @@
 
 namespace Zeichen32\GitLabApiBundle\Tests\DependencyInjection;
 
+use Gitlab\Client;
 use Http\Client\HttpClient;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -56,9 +57,9 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
         $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.firstclient'));
         $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.secondclient'));
 
-        $this->assertInstanceOf('Gitlab\Client', $this->container->get('zeichen32_gitlabapi.client.default'));
-        $this->assertInstanceOf('Gitlab\Client', $this->container->get('zeichen32_gitlabapi.client.firstclient'));
-        $this->assertInstanceOf('Gitlab\Client', $this->container->get('zeichen32_gitlabapi.client.secondclient'));
+        $this->assertInstanceOf(Client::class, $this->container->get('zeichen32_gitlabapi.client.default'));
+        $this->assertInstanceOf(Client::class, $this->container->get('zeichen32_gitlabapi.client.firstclient'));
+        $this->assertInstanceOf(Client::class, $this->container->get('zeichen32_gitlabapi.client.secondclient'));
 
         $this->assertNotSame(
             $this->container->get('zeichen32_gitlabapi.client.firstclient'),

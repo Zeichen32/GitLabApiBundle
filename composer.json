@@ -14,7 +14,7 @@
     "require": {
         "php": "^7.2",
         "symfony/framework-bundle": "^3.4|^4.3|^5.0",
-        "m4tthumphrey/php-gitlab-api": "^9"
+        "m4tthumphrey/php-gitlab-api": "^9.18"
     },
     "require-dev" : {
         "php-http/message": "^1.6",
@@ -27,7 +27,7 @@
     "target-dir": "Zeichen32/GitLabApiBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     }
 }

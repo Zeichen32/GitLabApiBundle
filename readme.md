@@ -3,12 +3,12 @@ Getting Started With Zeichen32GitLabApiBundle
 
 [![Build Status](https://travis-ci.org/Zeichen32/GitLabApiBundle.svg)](https://travis-ci.org/Zeichen32/GitLabApiBundle)
 
-This Bundle integrate the [Gitlab API Wrapper](https://github.com/m4tthumphrey/php-gitlab-api) into your Symfony2 Project.
+This Bundle integrate the [GitLab PHP API Client](https://github.com/GitLabPHP/Client) into your Symfony Project.
 
 
 ### Step 1: Install Zeichen32GitLabApiBundle
 
-The preferred way to install this bundle is to rely on [Composer](http://getcomposer.org).
+The preferred way to install this bundle is to rely on [Composer](https://getcomposer.org).
 
 ``` js
 {
@@ -89,7 +89,7 @@ Or if you set alias option:
 
 ```
 
-For more information about using the api, take a look at the [Gitlab Client Documentation](https://github.com/m4tthumphrey/php-gitlab-api).
+For more information about using the api, take a look at the [GitLab Client Documentation](https://github.com/GitLabPHP/Client).
 
 ### Step 5: Configuration Reference
 
