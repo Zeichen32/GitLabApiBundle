@@ -95,6 +95,7 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
         );
 
         $this->extension->load($config, $this->container);
+        $this->assertTrue($this->container->has(Client::class));
         $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.default'));
         $this->assertTrue($this->container->has('zeichen32_gitlabapi.client.firstclient'));
         $this->assertTrue($this->container->has('gitlab_api'));
@@ -102,6 +103,11 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
 
         $this->assertSame(
             $this->container->get('zeichen32_gitlabapi.client.firstclient'),
+            $this->container->get('zeichen32_gitlabapi.client.default')
+        );
+
+        $this->assertSame(
+            $this->container->get(Client::class),
             $this->container->get('zeichen32_gitlabapi.client.default')
         );
 
