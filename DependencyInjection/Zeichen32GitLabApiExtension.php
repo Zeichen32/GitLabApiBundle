@@ -10,6 +10,7 @@
 
 namespace Zeichen32\GitLabApiBundle\DependencyInjection;
 
+use Gitlab\Client;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -71,6 +72,7 @@ class Zeichen32GitLabApiExtension extends Extension
      */
     private function setDefaultClient($name, ContainerBuilder $container) {
         $container->setAlias('zeichen32_gitlabapi.client.default', sprintf('zeichen32_gitlabapi.client.%s', $name));
+        $container->setAlias(Client::class, 'zeichen32_gitlabapi.client.default');
     }
 
     /**
@@ -89,12 +91,11 @@ class Zeichen32GitLabApiExtension extends Extension
 
             $definition = new Definition('%zeichen32_gitlabapi.client.class%');
             $definition->addArgument(new Reference($httpClient));
-            $definition->setFactory(array('Gitlab\Client', 'createWithHttpClient'));
+            $definition->setFactory(array(Client::class, 'createWithHttpClient'));
             $definition->addMethodCall('setUrl', array($url));
         } else {
             $definition = new Definition('%zeichen32_gitlabapi.client.class%');
-            $definition->addArgument($url);
-            $definition->setFactory(array('Gitlab\Client', 'create'));
+            $definition->addMethodCall('setUrl', array($url));
         }
 
         // Call authenticate method

@@ -3,17 +3,18 @@ Getting Started With Zeichen32GitLabApiBundle
 
 [![Build Status](https://travis-ci.org/Zeichen32/GitLabApiBundle.svg)](https://travis-ci.org/Zeichen32/GitLabApiBundle)
 
-This Bundle integrate the [Gitlab API Wrapper](https://github.com/m4tthumphrey/php-gitlab-api) into your Symfony2 Project.
+This Bundle integrates the [GitLab PHP API Client](https://github.com/GitLabPHP/Client) into your Symfony Project.
 
 
 ### Step 1: Install Zeichen32GitLabApiBundle
 
-The preferred way to install this bundle is to rely on [Composer](http://getcomposer.org).
+The preferred way to install this bundle is to rely on [Composer](https://getcomposer.org).
 
 ``` js
 {
     "require": {
         // ...
+        "php-http/guzzle6-adapter:^2.0.1",  // Or any other compatible PSR client
         "zeichen32/gitlabapibundle": "~4.0"
     }
 }
@@ -59,41 +60,68 @@ zeichen32_git_lab_api:
             alias: custom_alias
 ```
 
-The first client is defined automatically as your default client.
+The first client automatically defined as your default client.
 
 ### Step 4: Use the gitlab api
 
-If you want to use the default client, you can easy getting the client
-by the "gitlab_api" service-id.
+If you want to use the default client you can use type hinting.
 
 ``` php
-        $api = $this->get('gitlab_api');
-        $issues = $api->api('issues')->all($project_id);
+<?php
+namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Gitlab\Client;
+
+class DefaultController extends AbstractController {
+    public function index(Client $client) {
+        $issues = $client->api('issues')->all($project_id);
+    }
+}
 ```
 
-If you want to get one of the other clients, you can getting the specific client
+If you want to get one of the other clients, you can get the specific client
 by the "zeichen32_gitlabapi.client.CLIENT_NAME" service id.
 
+``` yaml
+services:
+    App\Controller\DefaultController:
+        arguments: {$client: '@zeichen32_gitlabapi.client.default'}
+```
 ``` php
-        $api = $this->get('zeichen32_gitlabapi.client.secondclient');
-        $issues = $api->api('issues')->all($project_id);
+<?php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Gitlab\Client;
+
+class DefaultController extends AbstractController {
+    private $client;
+
+    public __construct(Client $client) {
+        $this->client = $client;
+    }
+
+    public function index() {
+        $issues = $this->client->api('issues')->all($project_id);
+    }
+}
 
 ```
 
 Or if you set alias option:
 
-``` php
-        $api = $this->get('custom_alias');
-        $issues = $api->api('issues')->all($project_id);
-
+``` yaml
+services:
+    App\Controller\DefaultController:
+        arguments: {$client: '@custom_alias'}
 ```
 
-For more information about using the api, take a look at the [Gitlab Client Documentation](https://github.com/m4tthumphrey/php-gitlab-api).
+For more information about using the api, take a look at the [GitLab Client Documentation](https://github.com/GitLabPHP/Client).
 
 ### Step 5: Configuration Reference
 
-All available configuration options are listed below with their default values.
+All available configuration options with their default values listed below:
 
 ``` yaml
 
