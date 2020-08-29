@@ -14,8 +14,8 @@ The preferred way to install this bundle is to rely on [Composer](https://getcom
 {
     "require": {
         // ...
-        "php-http/guzzle6-adapter:^2.0.1",  // Or any other compatible PSR client
-        "zeichen32/gitlabapibundle": "~4.0"
+        "guzzlehttp/guzzle:^7.0.1",  // Optional PSR Client, if you dont want to use the symfony http client
+        "zeichen32/gitlabapibundle": "~5.0"
     }
 }
 ```
@@ -48,11 +48,11 @@ zeichen32_git_lab_api:
         firstclient:
             token: your-api-token
             url: http://example.org/api/v3/
-            auth_method: url_token
+            auth_method: http_token
         secondclient:
             token: your-api-token
             url: http://example.org/api/v3/
-            auth_method: http_token
+            auth_method: oauth_token
             sudo: 1
         thirdclient:
             token: your-api-token
@@ -129,10 +129,10 @@ zeichen32_git_lab_api:
     clients:              # Required
         token:                ~ # Required
         url:                  ~ # Required
-        auth_method:          ~ http_token|url_token|oauth_token
+        auth_method:          ~ http_token|oauth_token
         sudo:                 ~
         alias:                ~
-        http_client:          ~ # http plug client service id
+        http_client:          ~ # http client service id
 
 ```
 
