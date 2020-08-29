@@ -52,7 +52,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->enumNode('auth_method')
                                 ->defaultValue(Client::AUTH_HTTP_TOKEN)
-                                ->values(array(Client::AUTH_URL_TOKEN, Client::AUTH_HTTP_TOKEN, Client::AUTH_OAUTH_TOKEN))
+                                ->values(array(Client::AUTH_HTTP_TOKEN, Client::AUTH_OAUTH_TOKEN))
                             ->end()
                             ->scalarNode('sudo')->defaultValue(null)->end()
                             ->scalarNode('alias')->defaultValue(null)->end()
