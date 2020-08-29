@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpClient\MockHttpClient;
 use Zeichen32\GitLabApiBundle\DependencyInjection\Zeichen32GitLabApiExtension;
 
 class Zeichen32GitLabApiExtensionTest extends TestCase {
@@ -33,6 +35,7 @@ class Zeichen32GitLabApiExtensionTest extends TestCase {
     public function setUp(): void
     {
         $this->container = new ContainerBuilder();
+        $this->container->setDefinition('http_client', new Definition(MockHttpClient::class));
         $this->extension = new Zeichen32GitLabApiExtension();
     }
 

@@ -94,7 +94,12 @@ class Zeichen32GitLabApiExtension extends Extension
             $definition->setFactory(array(Client::class, 'createWithHttpClient'));
             $definition->addMethodCall('setUrl', array($url));
         } else {
+            // Create new client if needed
+            $psr18Client = new Definition('Symfony\Component\HttpClient\Psr18Client', [new Reference('http_client')]);
+
             $definition = new Definition('%zeichen32_gitlabapi.client.class%');
+            $definition->addArgument($psr18Client);
+            $definition->setFactory(array(Client::class, 'createWithHttpClient'));
             $definition->addMethodCall('setUrl', array($url));
         }
 
