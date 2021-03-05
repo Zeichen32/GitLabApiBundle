@@ -15,7 +15,7 @@ The preferred way to install this bundle is to rely on [Composer](https://getcom
     "require": {
         // ...
         "guzzlehttp/guzzle:^7.0.1",  // Optional PSR Client, if you dont want to use the symfony http client
-        "zeichen32/gitlabapibundle": "~5.0"
+        "zeichen32/gitlabapibundle": "~6.0"
     }
 }
 ```
