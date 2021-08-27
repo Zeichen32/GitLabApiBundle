@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('zeichen32_gi_lab_api');
+        $treeBuilder = new TreeBuilder('zeichen32_git_lab_api');
 
         if (\method_exists(TreeBuilder::class, 'getRootNode')) {
             $rootNode = $treeBuilder->getRootNode();
