@@ -17,11 +17,11 @@
         "symfony/http-client": "^4.4 || ^5.0 || ^6.0 || ^7.0",
         "symfony/http-client-contracts": "^1.0|^2.0|^3.0",
         "nyholm/psr7": "^1.0",
-        "m4tthumphrey/php-gitlab-api": "^11.0"
+        "m4tthumphrey/php-gitlab-api": "^12.0"
     },
     "require-dev" : {
         "phpunit/phpunit": "^8.0",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.9.2",
         "http-interop/http-factory-guzzle": "^1.0"
     },
     "autoload": {
@@ -31,6 +31,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "6.1.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
         }
     }
 }
